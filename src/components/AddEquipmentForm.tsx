@@ -70,16 +70,18 @@ const AddEquipmentForm: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
         }
     };
 
-    const steps = ['Basic Info', 'Pricing & Availability', 'Additional Details'];
+    const steps = ['Basic Info', 'Pricing & Availability', 'Description & Image', 'Additional Details'];
 
     const isStepComplete = (step: number) => {
         switch (step) {
             case 0:
-                return formData.name !== '' && formData.category !== '' && formData.condition !== '' && formData.description !== '';
+                return formData.name !== '' && formData.category !== '' && formData.condition !== '';
             case 1:
                 return formData.rentalPrice !== '' && formData.depositAmount !== '' && formData.availabilityDates !== '';
             case 2:
-                return formData.image !== '' && formData.manufacturer !== '' && formData.location !== '' && formData.contactInfo !== '';
+                return formData.description !== '' && formData.image !== '';
+            case 3:
+                return formData.manufacturer !== '' && formData.location !== '' && formData.contactInfo !== '';
             default:
                 return false;
         }
@@ -99,14 +101,14 @@ const AddEquipmentForm: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
             onSubmit={handleSubmit} 
             style={{
                 width: '100%',
-                maxWidth: '800px',
-                margin: '20px auto', 
-                padding: '40px',
+                maxWidth: '600px',
+                margin: '1px auto', 
+                padding: '10px 20px 0px 20px',
                 backgroundColor: '#ffffff',
                 borderRadius: '12px',
                 boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-                fontFamily: 'Arial, sans-serif',
-                border: 'none',
+                fontFamily: 'times new roman, sans-serif',
+                // border: '1px solid #0070f3',
             }}
         >
             <h2 style={{ textAlign: 'center', marginBottom: '30px', color: '#0070f3', fontSize: '32px', fontWeight: 'bold' }}>Add Equipment</h2>
@@ -147,88 +149,78 @@ const AddEquipmentForm: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                             />
                         </div>
 
-                        <div style={{ flex: '1 1 100%' }}>
-                            <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-                                Category
-                            </Label>
-                            <Select 
-                                name="category" 
-                                value={formData.category} 
-                                onChange={handleInputChange} 
-                                required 
-                                style={{
-                                    width: '100%', 
-                                    padding: '12px', 
-                                    border: '1px solid #ccc', 
-                                    borderRadius: '8px',
-                                    fontSize: '16px',
+                        <div style={{ display: 'flex', gap: '20px', width: '100%' }}>
+                            <div style={{ flex: '1 1 50%' }}>
+                                <Label style={{ 
+                                    display: 'block', 
+                                    marginBottom: '8px', 
+                                    fontWeight: 'bold', 
                                     color: '#333',
-                                    backgroundColor: '#f9f9f9',
-                                    transition: 'all 0.3s ease',
-                                }}
-                                onFocus={addPlaceholderEffect}
-                                onBlur={removePlaceholderEffect}
-                            >
-                                <option value="">Select...</option>
-                                <option value="tools">Tools</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="furniture">Furniture</option>
-                            </Select>
-                        </div>
+                                    fontSize: '18px',
+                                    width: '100%',
+                                }}>
+                                    Category
+                                </Label>
+                                <Select 
+                                    name="category" 
+                                    value={formData.category} 
+                                    onChange={handleInputChange} 
+                                    required 
+                                    style={{
+                                        width: '100%', 
+                                        padding: '12px', 
+                                        border: '1px solid #ccc', 
+                                        borderRadius: '8px',
+                                        fontSize: '16px',
+                                        color: '#333',
+                                        backgroundColor: '#f9f9f9',
+                                        transition: 'all 0.3s ease',
+                                    }}
+                                    onFocus={addPlaceholderEffect}
+                                    onBlur={removePlaceholderEffect}
+                                >
+                                    <option value="">Select...</option>
+                                    <option value="tools">Tools</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="furniture">Furniture</option>
+                                </Select>
+                            </div>
 
-                        <div style={{ flex: '1 1 100%' }}>
-                            <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-                                Condition
-                            </Label>
-                            <Select 
-                                name="condition" 
-                                value={formData.condition} 
-                                onChange={handleInputChange} 
-                                required 
-                                style={{
-                                    width: '100%', 
-                                    padding: '12px', 
-                                    border: '1px solid #ccc', 
-                                    borderRadius: '8px',
-                                    fontSize: '16px',
+                            <div style={{ flex: '1 1 50%' }}>
+                                <Label style={{ 
+                                    display: 'block', 
+                                    marginBottom: '8px', 
+                                    fontWeight: 'bold', 
                                     color: '#333',
-                                    backgroundColor: '#f9f9f9',
-                                    transition: 'all 0.3s ease',
-                                }}
-                                onFocus={addPlaceholderEffect}
-                                onBlur={removePlaceholderEffect}
-                            >
-                                <option value="">Select...</option>
-                                <option value="new">New</option>
-                                <option value="used">Used</option>
-                                <option value="refurbished">Refurbished</option>
-                            </Select>
-                        </div>
-
-                        <div style={{ flex: '1 1 100%' }}>
-                            <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-                                Description
-                            </Label>
-                            <Textarea 
-                                name="description" 
-                                value={formData.description} 
-                                onChange={handleInputChange} 
-                                required 
-                                placeholder="Enter equipment description"
-                                style={{
-                                    width: '100%', 
-                                    padding: '12px', 
-                                    border: '1px solid #ccc', 
-                                    borderRadius: '8px',
-                                    fontSize: '16px',
-                                    color: '#333',
-                                    backgroundColor: '#f9f9f9',
-                                    transition: 'all 0.3s ease',
-                                    minHeight: '100px',
-                                }} 
-                                onFocus={addPlaceholderEffect}
-                                onBlur={removePlaceholderEffect}
-                            />
+                                    fontSize: '18px',
+                                    width: '100%',
+                                }}>
+                                    Condition
+                                </Label>
+                                <Select 
+                                    name="condition" 
+                                    value={formData.condition} 
+                                    onChange={handleInputChange} 
+                                    required 
+                                    style={{
+                                        width: '100%', 
+                                        padding: '12px', 
+                                        border: '1px solid #ccc', 
+                                        borderRadius: '8px',
+                                        fontSize: '16px',
+                                        color: '#333',
+                                        backgroundColor: '#f9f9f9',
+                                        transition: 'all 0.3s ease',
+                                    }}
+                                    onFocus={addPlaceholderEffect}
+                                    onBlur={removePlaceholderEffect}
+                                >
+                                    <option value="">Select...</option>
+                                    <option value="new">New</option>
+                                    <option value="used">Used</option>
+                                    <option value="refurbished">Refurbished</option>
+                                </Select>
+                            </div>
                         </div>
                     </>
                 )}
@@ -319,6 +311,34 @@ const AddEquipmentForm: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                     <>
                         <div style={{ flex: '1 1 100%' }}>
                             <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
+                                Description
+                            </Label>
+                            <Textarea 
+                                name="description" 
+                                value={formData.description} 
+                                onChange={handleInputChange} 
+                                required 
+                                placeholder="Enter equipment description"
+                                style={{
+                                    width: '100%', 
+                                    padding: '12px', 
+                                    border: '1px solid #ccc', 
+                                    borderRadius: '8px',
+                                    fontSize: '16px',
+                                    color: '#333',
+                                    backgroundColor: '#f9f9f9',
+                                    transition: 'all 0.3s ease',
+                                    minHeight: '60px', // Reduced from 100px to 80px
+                                    height: '60px',    // Added fixed height
+                                    resize: 'vertical' // Allow vertical resizing if needed
+                                }} 
+                                onFocus={addPlaceholderEffect}
+                                onBlur={removePlaceholderEffect}
+                            />
+                        </div>
+
+                        <div style={{ flex: '1 1 100%' }}>
+                            <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
                                 Image Upload or URL
                             </Label>
                             <div style={{ display: 'flex', gap: '10px' }}>
@@ -356,7 +376,11 @@ const AddEquipmentForm: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
                                 />
                             </div>
                         </div>
+                    </>
+                )}
 
+                {activeStep === 3 && (
+                    <>
                         <div style={{ flex: '1 1 30%', minWidth: '250px' }}>
                             <Label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
                                 Manufacturer/Brand
