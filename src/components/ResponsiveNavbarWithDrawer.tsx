@@ -23,6 +23,11 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { useNavigate } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const drawerWidth = 240;
 
@@ -87,6 +92,7 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
   const [searchTerm, setSearchTerm] = React.useState('');
   const navigate = useNavigate();
   const theme = useTheme();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -108,9 +114,17 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
     onSearch(newSearchTerm);
   };
 
+  const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/', color: '#0fa3b1' },
-    { text: 'Login', icon: <LoginIcon />, path: '/login', color: '#2196F3' },
+    { text: 'Login', icon: <LoginIcon />, path: '/login', color: '#e63946' },
     { text: 'Items', icon: <InventoryIcon />, path: '/items', color: '#FF9800' },
     { text: 'Order Delivery', icon: <LocalShippingIcon />, path: '/order-delivery', color: '#E91E63' },
     { text: 'Contact', icon: <ContactMailIcon />, path: '/contact', color: '#9C27B0' },
@@ -147,6 +161,44 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
               onChange={handleSearchChange}
             />
           </Search>
+          <IconButton
+            onClick={handleAvatarClick}
+            sx={{ ml: 2 }}
+          >
+            <Avatar sx={{ width: 32, height: 32, bgcolor: '#3f51b5' }}>A</Avatar>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem onClick={handleMenuClose}>
+              <ListItemIcon>
+                <PersonIcon fontSize="small" sx={{ color: '#1976d2' }} />
+              </ListItemIcon>
+              <Typography sx={{ color: '#1976d2' }}>Profile</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <ListItemIcon>
+                <LoginIcon fontSize="small" sx={{ color: '#388e3c' }} />
+              </ListItemIcon>
+              <Typography sx={{ color: '#388e3c' }}>Login</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <ListItemIcon>
+                <SettingsIcon fontSize="small" sx={{ color: '#f57c00' }} />
+              </ListItemIcon>
+              <Typography sx={{ color: '#f57c00' }}>Settings</Typography>
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer
