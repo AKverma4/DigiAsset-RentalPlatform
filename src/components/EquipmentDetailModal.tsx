@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Box, Typography, Button } from '@mui/material';
+import ImageMagnifier from './ImageMagnifier';
 
 interface EquipmentDetailModalProps {
   open: boolean;
@@ -45,7 +46,16 @@ const EquipmentDetailModal: React.FC<EquipmentDetailModalProps> = ({ open, onClo
         </Typography>
         <Box sx={{ display: 'flex', gap: 3 }}>
           <Box sx={{ flex: '0 0 40%' }}>
-            <img 
+            <ImageMagnifier
+              src={equipment.image}
+              width="100%"
+              height="200px"
+              magnifierHeight={300}
+              magnifierWidth={300}
+              zoomLevel={10.5}
+            />
+            {/* <img 
+
               src={equipment.image} 
               alt={equipment.name} 
               style={{ 
@@ -58,7 +68,7 @@ const EquipmentDetailModal: React.FC<EquipmentDetailModalProps> = ({ open, onClo
                 // },
                 boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
               }} 
-            />
+            /> */}
           </Box>
           <Box sx={{ flex: '1 1 60%' }}>
             <Typography variant="body1" gutterBottom><strong>Category:</strong> {equipment.category}</Typography>

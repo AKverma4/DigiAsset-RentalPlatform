@@ -21,19 +21,24 @@ const AddEquipmentButton: React.FC = () => {
           position: 'fixed',
           right: '20px',
           top: '20px',
-          backgroundColor: '#0070f3',
+          backgroundColor: '#3498db', // Updated to a more vibrant blue
           color: 'white',
-          padding: '10px 20px',
-          borderRadius: '5px',
+          padding: '12px 24px', // Slightly increased padding
+          borderRadius: '25px', // Increased border radius for a pill-like shape
           border: 'none',
-          fontWeight: 'bold',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+          fontWeight: '600', // Slightly reduced font weight
+          boxShadow: '0 4px 6px rgba(52, 152, 219, 0.3)', // Softer, colored shadow
           zIndex: 1000,
           cursor: 'pointer',
           marginTop: '60px',
+          fontSize: '14px', // Added font size
+          textTransform: 'uppercase', // Uppercase text
+          letterSpacing: '1px', // Added letter spacing
+          transition: 'all 0.3s ease', // Smooth transition for hover effects
+         
         }}
       >
-        ADD Equipment
+        Add Equipment
       </button>
 
       {isModalOpen && (

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface EquipmentCardProps {
   name: string;
@@ -80,8 +82,14 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={() => { onUpdate(); handleMenuClose(); }}>Update</MenuItem>
-        <MenuItem onClick={() => { onDelete(); handleMenuClose(); }}>Delete</MenuItem>
+        <MenuItem onClick={() => { onUpdate(); handleMenuClose(); }}>
+          <EditIcon sx={{ mr: 1, color: 'info.main' }} />
+          <Typography sx={{ color: 'info.main' }}>Edit</Typography>
+        </MenuItem>
+        <MenuItem onClick={() => { onDelete(); handleMenuClose(); }}>
+          <DeleteIcon sx={{ mr: 1, color: '#f44336' }} />
+          <Typography sx={{ color: '#f44336' }}>Delete</Typography>
+        </MenuItem>
       </Menu>
       {image && (
         <div style={{ 
@@ -104,7 +112,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         </div>
       )}
       <CardContent sx={{ pt: image ? 2 : 3, pb: 3, position: 'relative' }}>
-        <Typography variant="h6" component="div" gutterBottom sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h6" component="div" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2' }}>
           {name}
         </Typography>
         <Typography sx={{ mb: 1 }} color="text.secondary" variant="body2">
@@ -113,7 +121,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         <Typography sx={{ mb: 1 }} color="text.secondary" variant="body2">
           {/* <strong>Condition:</strong> {condition} */}
         </Typography>
-        <Typography variant="body1" sx={{ mb: 2, color: 'primary.main', fontWeight: 'bold' }}>
+        <Typography variant="body1" sx={{ mb: 2, color: '#4caf50', fontWeight: 'bold' }}>
         ₹{rentalPrice}/day
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ 
@@ -122,6 +130,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
           display: '-webkit-box', 
           WebkitLineClamp: 4, 
           WebkitBoxOrient: 'vertical',
+          color: '#757575',
         }}>
           {truncatedDescription}
         </Typography>
@@ -135,6 +144,10 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
             bottom: 8,
             right: 8,
             minWidth: '60px',
+            backgroundColor: '#1976d2',
+            '&:hover': {
+              backgroundColor: '#1565c0',
+            },
           }}
         >
           View
