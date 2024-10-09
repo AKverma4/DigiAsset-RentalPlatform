@@ -14,6 +14,7 @@ interface EquipmentCardProps {
   onDelete: () => void;
   onUpdate: () => void; // Add this new prop
   onView: () => void; // Add this new prop
+  showMoreOptions?: boolean; // Add this new prop
 }
 
 const EquipmentCard: React.FC<EquipmentCardProps> = ({ 
@@ -25,7 +26,8 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
   description, 
   onDelete,
   onUpdate,
-  onView // Add this new prop
+  onView, // Add this new prop
+  showMoreOptions = true // Add this with a default value of true
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [truncatedDescription, setTruncatedDescription] = useState<string>('');
@@ -68,18 +70,20 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
       },
     }}>
-      <IconButton
-        sx={{
-          position: 'absolute',
-          top: 8,
-          right: 8,
-          color: 'text.secondary',
-          '&:hover': { color: 'primary.main' },
-        }}
-        onClick={handleMenuOpen}
-      >
-        <MoreVertIcon />
-      </IconButton>
+      {showMoreOptions && (
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: 'text.secondary',
+            '&:hover': { color: 'primary.main' },
+          }}
+          onClick={handleMenuOpen}
+        >
+          <MoreVertIcon />
+        </IconButton>
+      )}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}

@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         <Typography variant="h6" component="h2" gutterBottom>
           Available Equipment
         </Typography>
-        <EquipmentList searchTerm={searchTerm} />
+        <EquipmentList searchTerm={searchTerm} showMoreOptions={false} />
       </Box>
     </Container>
   );

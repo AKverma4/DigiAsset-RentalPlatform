@@ -18,7 +18,12 @@ interface Equipment {
   contactInfo: string;
 }
 
-const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
+interface EquipmentListProps {
+  searchTerm: string;
+  showMoreOptions?: boolean; // Add this new prop
+}
+
+const EquipmentList: React.FC<EquipmentListProps> = ({ searchTerm, showMoreOptions = true }) => {
   const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -77,14 +82,24 @@ const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
               width: 
                 filteredEquipment.length === 1 ? '400px' :
                 filteredEquipment.length === 2 ? '300px' :
-                filteredEquipment.length === 3 ? '200px' :
+                filteredEquipment.length === 3 ? '300px' :
                 filteredEquipment.length === 4 ? '300px' :
                 filteredEquipment.length === 5 ? '300px' :
                 filteredEquipment.length === 6 ? '300px' :
                 filteredEquipment.length === 7 ? '300px' :
                 filteredEquipment.length === 8 ? '300px' :
                 filteredEquipment.length === 9 ? '300px' :
-                filteredEquipment.length === 10 ? '300px' : 
+                filteredEquipment.length === 10 ? '300px' :
+                filteredEquipment.length === 11 ? '300px' :
+                filteredEquipment.length === 12 ? '300px' :
+                // filteredEquipment.length === 13 ? '300px' :
+                // filteredEquipment.length === 14 ? '300px' :
+                // filteredEquipment.length === 15 ? '300px' :
+                // filteredEquipment.length === 16 ? '300px' :
+                // filteredEquipment.length === 17 ? '300px' :
+                // filteredEquipment.length === 18 ? '300px' :
+                // filteredEquipment.length === 19 ? '300px' :
+                // filteredEquipment.length === 20 ? '300px' :
                 {
                   xs: '100%',
                   sm: '50%',
@@ -107,6 +122,7 @@ const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
                 onDelete={() => handleDelete(index)}
                 onUpdate={() => handleUpdateClick(item)}
                 onView={() => handleViewClick(item)}
+                showMoreOptions={showMoreOptions}
               />
             </Box>
           </Box>
