@@ -11,6 +11,7 @@ import ItemsPage from './Pages/ItemsPage';
 import CartPage from './Pages/CartPage ';
 import { CartProvider } from './contexts/CartContext';
 import ProfilePage from './Pages/ProfilePage';
+import Home from './Pages/Home/Home';
 
 interface AppState {
   searchTerm: string;
@@ -35,7 +36,7 @@ class App extends React.Component<Record<string, never>, AppState> {
           <ResponsiveNavbarWithDrawer onSearch={this.handleSearch}>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Routes>
-                <Route path="/" element={<ItemsPage />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/add-equipment" element={<AddEquipmentForm />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/items" element={<ItemsPage />} />

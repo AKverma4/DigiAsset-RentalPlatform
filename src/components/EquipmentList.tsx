@@ -66,33 +66,49 @@ const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
       <Box sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 
+          filteredEquipment.length <= 3 ? 'center' : 'flex-start',
         margin: -1, // Negative margin to counteract padding
       }}>
         {filteredEquipment.map((item, index) => (
           <Box 
             key={`${item.name}-${index}`} 
             sx={{ 
-              width: {
-                xs: '100%',
-                sm: '50%',
-                md: '33.333%',
-                lg: '25%'
-              },
+              width: 
+                filteredEquipment.length === 1 ? '400px' :
+                filteredEquipment.length === 2 ? '300px' :
+                filteredEquipment.length === 3 ? '200px' :
+                filteredEquipment.length === 4 ? '300px' :
+                filteredEquipment.length === 5 ? '300px' :
+                filteredEquipment.length === 6 ? '300px' :
+                filteredEquipment.length === 7 ? '300px' :
+                filteredEquipment.length === 8 ? '300px' :
+                filteredEquipment.length === 9 ? '300px' :
+                filteredEquipment.length === 10 ? '300px' : 
+                {
+                  xs: '100%',
+                  sm: '50%',
+                  md: '33.333%',
+                  lg: '25%'
+                },
               padding: 1, // Padding for spacing
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
-            <EquipmentCard
-              name={item.name}
-              category={item.category}
-              condition={item.condition}
-              rentalPrice={item.rentalPrice}
-              image={item.image}
-              description={item.description}
-              onDelete={() => handleDelete(index)}
-              onUpdate={() => handleUpdateClick(item)}
-              onView={() => handleViewClick(item)}
-            />
+            <Box sx={{ width: '100%', maxWidth: '300px' }}>
+              <EquipmentCard
+                name={item.name}
+                category={item.category}
+                condition={item.condition}
+                rentalPrice={item.rentalPrice}
+                image={item.image}
+                description={item.description}
+                onDelete={() => handleDelete(index)}
+                onUpdate={() => handleUpdateClick(item)}
+                onView={() => handleViewClick(item)}
+              />
+            </Box>
           </Box>
         ))}
       </Box>
