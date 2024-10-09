@@ -52,13 +52,16 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
 
   return (
     <Card sx={{
-      width: 280,
-      m: 2,
-      gap: 16,
+      width: '100%',
+      height: '100%', // Ensure full height
+      display: 'flex',
+      flexDirection: 'column',
+      // m: 2,
+      // gap: 16,
       borderRadius: 2,
       position: 'relative',
-      boxShadow: 'none',
-      border: '2px solid #9e9e9e', // Changed this line
+      boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.1)',
+      border: '2px solid #32a1ce',
       transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
       '&:hover': {
         transform: 'translateY(-5px)',
@@ -143,6 +146,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
             position: 'absolute',
             bottom: 8,
             right: 8,
+            marginBottom: 'auto',
             minWidth: '60px',
             backgroundColor: '#1976d2',
             '&:hover': {

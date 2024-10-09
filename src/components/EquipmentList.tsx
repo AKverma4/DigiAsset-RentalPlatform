@@ -67,10 +67,21 @@ const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
-        gap: 2,
+        margin: -1, // Negative margin to counteract padding
       }}>
         {filteredEquipment.map((item, index) => (
-          <Box key={` ₹{item.name}- ₹{index}`} sx={{ flexBasis: 'calc(30% - 16px)', maxWidth: 'calc(25% - 16px)',marginLef: '0px' }}>
+          <Box 
+            key={`${item.name}-${index}`} 
+            sx={{ 
+              width: {
+                xs: '100%',
+                sm: '50%',
+                md: '33.333%',
+                lg: '25%'
+              },
+              padding: 1, // Padding for spacing
+            }}
+          >
             <EquipmentCard
               name={item.name}
               category={item.category}

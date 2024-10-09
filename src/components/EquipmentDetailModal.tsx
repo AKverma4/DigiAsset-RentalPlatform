@@ -46,29 +46,21 @@ const EquipmentDetailModal: React.FC<EquipmentDetailModalProps> = ({ open, onClo
         </Typography>
         <Box sx={{ display: 'flex', gap: 3 }}>
           <Box sx={{ flex: '0 0 40%' }}>
-            <ImageMagnifier
-              src={equipment.image}
-              width="100%"
-              height="200px"
-              magnifierHeight={300}
-              magnifierWidth={300}
-              zoomLevel={10.5}
-            />
-            {/* <img 
-
-              src={equipment.image} 
-              alt={equipment.name} 
-              style={{ 
-                width: '100%', 
-                borderRadius: 8,
-                transition: 'transform 0.3s',
-                transform: 'rotateY(0)',
-                // '&:hover': {
-                //   transform: 'rotateY(5deg) scale(1.05)',
-                // },
-                boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
-              }} 
-            /> */}
+            <div style={{
+              borderRadius: 8,
+              transition: 'transform 0.3s',
+              transform: 'rotateY(0)',
+              boxShadow: '0 5px 10px rgba(0,0,0,0.1)',
+            }}>
+              <ImageMagnifier
+                src={equipment.image}
+                width="100%"
+                height="auto"  // Add this line
+                magnifierHeight={200}
+                magnifierWidth={200}
+                zoomLevel={2}
+              />
+            </div>
           </Box>
           <Box sx={{ flex: '1 1 60%' }}>
             <Typography variant="body1" gutterBottom><strong>Category:</strong> {equipment.category}</Typography>
