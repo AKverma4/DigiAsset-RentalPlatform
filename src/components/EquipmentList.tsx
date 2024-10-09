@@ -70,7 +70,7 @@ const EquipmentList: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
         gap: 2,
       }}>
         {filteredEquipment.map((item, index) => (
-          <Box key={` ₹{item.name}- ₹{index}`} sx={{ flexBasis: 'calc(25% - 16px)', maxWidth: 'calc(25% - 16px)' }}>
+          <Box key={` ₹{item.name}- ₹{index}`} sx={{ flexBasis: 'calc(30% - 16px)', maxWidth: 'calc(25% - 16px)',marginLef: '0px' }}>
             <EquipmentCard
               name={item.name}
               category={item.category}

@@ -112,6 +112,9 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
     onSearch(newSearchTerm);
+    
+    // Dispatch a custom event with the search term
+    window.dispatchEvent(new CustomEvent('search', { detail: newSearchTerm }));
   };
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -120,6 +123,11 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+    handleMenuClose();
   };
 
   const menuItems = [
@@ -180,7 +188,7 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
               horizontal: 'right',
             }}
           >
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={handleProfileClick}>
               <ListItemIcon>
                 <PersonIcon fontSize="small" sx={{ color: '#1976d2' }} />
               </ListItemIcon>
