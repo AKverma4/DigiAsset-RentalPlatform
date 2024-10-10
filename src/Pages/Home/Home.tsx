@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import EquipmentList from '../../components/EquipmentList';
 
+
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 

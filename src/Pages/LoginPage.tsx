@@ -6,7 +6,7 @@ import {
   Container,
   FormControlLabel,
   Grid,
-  Link,
+  Link as MUILink,
   Paper,
   TextField,
   Typography,
@@ -17,6 +17,8 @@ import image from '../assets/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/authentication';
 import { useLocation } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom'; // Import RouterLink
+
 
 const LoginContainer = styled(Container)(() => ({
   height: '100vh',
@@ -134,9 +136,9 @@ const LoginPage: React.FC = () => {
                 }
                 label="Remember me"
               />
-              <Link href="#" variant="body2" color="#6c63ff">
+              <MUILink href="#" variant="body2" color="#6c63ff">
                 Forgot your password?
-              </Link>
+              </MUILink>
             </Grid>
             <PurpleButton
               type="submit"
@@ -157,9 +159,9 @@ const LoginPage: React.FC = () => {
             </Button>
             <Typography variant="body2" align="center">
               Don't have an account?{' '}
-              <Link href="#" color="#6c63ff">
+              <RouterLink to="/SignUp" style={{ color: '#6c63ff' }}>
                 Register here
-              </Link>
+              </RouterLink>
             </Typography>
           </Box>
         </FormSection>

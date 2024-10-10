@@ -14,6 +14,7 @@ import ProfilePage from './Pages/ProfilePage';
 import Home from './Pages/Home/Home';
 import { AuthProvider } from './contexts/authentication';
 import ProtectedRoute from './components/ProtectedRoute';
+import SignUp from './components/SingUp';
 
 interface AppState {
   searchTerm: string;
@@ -40,6 +41,7 @@ class App extends React.Component<Record<string, never>, AppState> {
               <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/SignUp" element={<SignUp />} />
                   <Route path="/add-equipment" element={<AddEquipmentForm />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/items" element={<ItemsPage />} />
