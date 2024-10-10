@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext, Key } from 'react';
+import React, { createContext, useContext, useState, useEffect, Key } from 'react';
 
 interface Equipment {
   name: string;
@@ -32,15 +32,13 @@ export const CartContext = createContext<CartContextType>({
 });
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-
-  useEffect(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    // Load cart from localStorage on initial render
     const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
-  }, []);
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
+  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
@@ -71,6 +69,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearCart = () => {
     setCart([]);
+    localStorage.removeItem('cart');
   };
 
   const updateQuantity = (itemName: string, quantity: number) => {
