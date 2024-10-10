@@ -15,7 +15,8 @@ import { styled } from '@mui/material/styles';
 import { Google as GoogleIcon } from '@mui/icons-material';
 import image from '../assets/camera.jpg';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../contexts/authentication';
+import { useLocation } from 'react-router-dom';
 
 const LoginContainer = styled(Container)(() => ({
   height: '100vh',
@@ -61,17 +62,21 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Here you would typically call your authentication API
-    console.log('Login submitted:', { email, password, rememberMe });
     try {
-      // Simulating an API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // If login is successful, navigate to dashboard
-      navigate('/dashboard');
+      const success = await login(email, password);
+      if (success) {
+        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
+        navigate(from, { replace: true });
+      } else {
+        console.error('Login failed: Invalid credentials');
+        // Handle login error (show message to user, etc.)
+      }
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login error (show message to user, etc.)

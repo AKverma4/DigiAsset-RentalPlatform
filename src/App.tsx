@@ -12,6 +12,8 @@ import CartPage from './Pages/CartPage ';
 import { CartProvider } from './contexts/CartContext';
 import ProfilePage from './Pages/ProfilePage';
 import Home from './Pages/Home/Home';
+import { AuthProvider } from './contexts/authentication';
+import ProtectedRoute from './components/ProtectedRoute';
 
 interface AppState {
   searchTerm: string;
@@ -31,24 +33,30 @@ class App extends React.Component<Record<string, never>, AppState> {
 
   render() {
     return (
-      <CartProvider>
-        <Router>
-          <ResponsiveNavbarWithDrawer onSearch={this.handleSearch}>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/add-equipment" element={<AddEquipmentForm />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/items" element={<ItemsPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/order-delivery" element={<div>Order Delivery Page</div>} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-              </Routes>
-            </Box>  
-          </ResponsiveNavbarWithDrawer>
-        </Router>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <ResponsiveNavbarWithDrawer onSearch={this.handleSearch}>
+              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/add-equipment" element={<AddEquipmentForm />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/items" element={<ItemsPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/order-delivery" element={<div>Order Delivery Page</div>} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } />
+                </Routes>
+              </Box>  
+            </ResponsiveNavbarWithDrawer>
+          </Router>
+        </CartProvider>
+      </AuthProvider>
     );
   }
 }
