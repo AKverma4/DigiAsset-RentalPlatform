@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, Key } from 'react';
+import { addDays } from 'date-fns'; // Make sure to install date-fns: npm install date-fns
 
 interface Equipment {
   name: string;
@@ -13,6 +14,10 @@ interface CartItem extends Equipment {
   price: number;
   id: Key | null | undefined;
   quantity: number;
+  refundableSecurity: number;
+  rentalTenure: number;
+  startDate: Date;
+  returnDate: Date;
 }
 
 interface CartContextType {
@@ -21,6 +26,7 @@ interface CartContextType {
   removeFromCart: (itemName: string) => void;
   clearCart: () => void;
   updateQuantity: (itemName: string, quantity: number) => void;
+  updateDates: (itemName: string, startDate: Date, returnDate: Date) => void;
 }
 
 export const CartContext = createContext<CartContextType>({
@@ -29,6 +35,7 @@ export const CartContext = createContext<CartContextType>({
   removeFromCart: () => {},
   clearCart: () => {},
   updateQuantity: () => {},
+  updateDates: () => {},
 });
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -51,12 +58,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           cartItem.name === item.name ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
         );
       } else {
-        // Convert Equipment to CartItem
+        const startDate = new Date();
         const newCartItem: CartItem = {
           ...item,
           quantity: 1,
           price: item.rentalPrice,
-          id: item.name // Assuming name is unique, otherwise use a proper ID
+          id: item.name,
+          refundableSecurity: 0,
+          rentalTenure: 1,
+          startDate: startDate,
+          returnDate: addDays(startDate, 1),
         };
         return [...prevCart, newCartItem];
       }
@@ -80,8 +91,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   };
 
+  const updateDates = (itemName: string, startDate: Date, returnDate: Date) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.name === itemName ? { ...item, startDate, returnDate } : item
+      )
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity, updateDates }}>
       {children}
     </CartContext.Provider>
   );
