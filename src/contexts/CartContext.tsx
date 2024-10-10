@@ -1,55 +1,88 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useContext, Key } from 'react';
 
-interface CartItem {
-  id: number;
+interface Equipment {
   name: string;
-  price: number;
-  quantity: number;
+  category: string;
+  condition: string;
+  rentalPrice: number;
+  image: string;
   description: string;
+}
+
+interface CartItem extends Equipment {
+  price: number;
+  id: Key | null | undefined;
+  quantity: number;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  availableItems: CartItem[];
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
+  addToCart: (item: Equipment) => void;
+  removeFromCart: (itemName: string) => void;
   clearCart: () => void;
+  updateQuantity: (itemName: string, quantity: number) => void;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType>({
+  cart: [],
+  addToCart: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+  updateQuantity: () => {},
+});
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [availableItems] = useState<CartItem[]>([
-    { id: 1, name: 'Item 1', price: 19.99, quantity: 0, description: 'Description for Item 1' },
-    { id: 2, name: 'Item 2', price: 29.99, quantity: 0, description: 'Description for Item 2' },
-    { id: 3, name: 'Item 3', price: 39.99, quantity: 0, description: 'Description for Item 3' },
-  ]);
 
-  const addToCart = (item: CartItem) => {
-    setCart(currentCart => {
-      const existingItem = currentCart.find(cartItem => cartItem.id === item.id);
+  useEffect(() => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = (item: Equipment) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.name === item.name);
       if (existingItem) {
-        return currentCart.map(cartItem =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
+        return prevCart.map((cartItem) =>
+          cartItem.name === item.name ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
         );
+      } else {
+        // Convert Equipment to CartItem
+        const newCartItem: CartItem = {
+          ...item,
+          quantity: 1,
+          price: item.rentalPrice,
+          id: item.name // Assuming name is unique, otherwise use a proper ID
+        };
+        return [...prevCart, newCartItem];
       }
-      return [...currentCart, { ...item, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (id: number) => {
-    setCart(currentCart => currentCart.filter(item => item.id !== id));
+  const removeFromCart = (itemName: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.name !== itemName));
   };
 
   const clearCart = () => {
     setCart([]);
   };
 
+  const updateQuantity = (itemName: string, quantity: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.name === itemName ? { ...item, quantity: Math.max(0, quantity) } : item
+      ).filter((item) => item.quantity > 0)
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ cart, availableItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   );
