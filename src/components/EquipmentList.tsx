@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Box } from '@mui/material';
 import EquipmentCard from './EquipmentCard';
 import UpdateEquipmentModal from './UpdateEquipmentModal';
 import EquipmentDetailModal from './EquipmentDetailModal';
+import { CartContext } from '../contexts/CartContext';
 
 interface Equipment {
   name: string;
@@ -35,6 +36,12 @@ const EquipmentList: React.FC<EquipmentListProps> = ({ searchTerm, showMoreOptio
       setEquipmentList(JSON.parse(storedEquipment));
     }
   }, []);
+
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = (equipment: Equipment) => {
+    addToCart(equipment);
+  };
 
   const handleUpdateClick = (equipment: Equipment) => {
     setSelectedEquipment(equipment);
@@ -123,6 +130,7 @@ const EquipmentList: React.FC<EquipmentListProps> = ({ searchTerm, showMoreOptio
                 onUpdate={() => handleUpdateClick(item)}
                 onView={() => handleViewClick(item)}
                 showMoreOptions={showMoreOptions}
+                onAddToCart={() => handleAddToCart(item)}
               />
             </Box>
           </Box>

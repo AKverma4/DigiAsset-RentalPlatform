@@ -8,7 +8,7 @@ import LoginPage from './Pages/LoginPage';
 import { Box } from '@mui/material';
 import ContactPage from './Pages/ContactPage';
 import ItemsPage from './Pages/ItemsPage';
-import CartPage from './Pages/CartPage ';
+import CartPage from './Pages/Cart Page/CartPage'; // Remove the space after 'CartPage'
 import { CartProvider } from './contexts/CartContext';
 import ProfilePage from './Pages/ProfilePage';
 import Home from './Pages/Home/Home';

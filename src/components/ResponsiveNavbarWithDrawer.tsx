@@ -28,6 +28,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import { useCart } from '../contexts/CartContext';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -93,6 +97,7 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
   const navigate = useNavigate();
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { cart } = useCart();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -156,7 +161,9 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: '#ffffff' }}>
-            DigiMart
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              DigiMart
+            </Link>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -169,6 +176,16 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
               onChange={handleSearchChange}
             />
           </Search>
+          <IconButton
+            color="inherit"
+            aria-label="cart"
+            onClick={() => navigate('/cart')}
+            sx={{ ml: 2 }}
+          >
+            <Badge badgeContent={cart.length} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
           <IconButton
             onClick={handleAvatarClick}
             sx={{ ml: 2 }}
@@ -233,7 +250,11 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
           alignItems: 'center',
           padding: theme.spacing(0, 2),
         }}>
-          <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', backgroundColor: '#00072d' }}>DigiMart</Typography>
+          <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', backgroundColor: '#00072d' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              DigiMart
+            </Link>
+          </Typography>
           <IconButton onClick={handleDrawerClose} sx={{ color: 'inherit' }}>
             <ChevronLeftIcon />
           </IconButton>

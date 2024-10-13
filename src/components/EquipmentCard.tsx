@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, IconButton, Menu, MenuItem, Button } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Menu, MenuItem, Button, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 interface EquipmentCardProps {
   name: string;
@@ -15,6 +16,7 @@ interface EquipmentCardProps {
   onUpdate: () => void; // Add this new prop
   onView: () => void; // Add this new prop
   showMoreOptions?: boolean; // Add this new prop
+  onAddToCart: () => void; // Add this new prop
 }
 
 const EquipmentCard: React.FC<EquipmentCardProps> = ({ 
@@ -27,7 +29,8 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
   onDelete,
   onUpdate,
   onView, // Add this new prop
-  showMoreOptions = true // Add this with a default value of true
+  showMoreOptions = true, // Add this with a default value of true
+  onAddToCart // Add this new prop
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [truncatedDescription, setTruncatedDescription] = useState<string>('');
@@ -141,25 +144,39 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({
         }}>
           {truncatedDescription}
         </Typography>
-        <Button
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => onView()}
-          sx={{
-            position: 'absolute',
-            bottom: 8,
-            right: 8,
-            marginBottom: 'auto',
-            minWidth: '60px',
-            backgroundColor: '#1976d2',
-            '&:hover': {
-              backgroundColor: '#1565c0',
-            },
-          }}
-        >
-          View
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => onView()}
+            sx={{
+              minWidth: '60px',
+              backgroundColor: '#1976d2',
+              '&:hover': {
+                backgroundColor: '#1565c0',
+              },
+            }}
+          >
+            View
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            color="secondary"
+            onClick={() => onAddToCart()}
+            startIcon={<AddShoppingCartIcon />}
+            sx={{
+              minWidth: '60px',
+              backgroundColor: '#4caf50',
+              '&:hover': {
+                backgroundColor: '#45a049',
+              },
+            }}
+          >
+            Add to Cart
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );
