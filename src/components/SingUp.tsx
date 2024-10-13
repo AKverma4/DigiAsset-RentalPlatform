@@ -125,7 +125,6 @@ const SignUp: React.FC = () => {
           style={{
             width: '100%', 
             height: '100%', 
-            objectFit: 'contain', // Adjust the image to cover the area
             borderRadius: '8px', // Optional: add rounded corners
           }}
         />

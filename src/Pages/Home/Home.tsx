@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import EquipmentList from '../../components/EquipmentList';
+import EquipmentCard from '../../components/Equipment-card';
 
 
 const Home: React.FC = () => {
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" >
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Welcome to Equipment Rental
@@ -28,6 +29,7 @@ const Home: React.FC = () => {
           Available Equipment
         </Typography>
         <EquipmentList searchTerm={searchTerm} showMoreOptions={false} />
+        <EquipmentCard />
       </Box>
     </Container>
   );

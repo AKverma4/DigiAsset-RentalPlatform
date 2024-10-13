@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Box } from '@mui/material';
 import AddEquipmentButton from '../components/AddEquipmentButton';
 import EquipmentList from '../components/EquipmentList';
+import UserDetailForm from '../components/Userdetailsform';
 
 const ProfilePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,6 +24,7 @@ const ProfilePage: React.FC = () => {
       <Box sx={{ mt: 4, mb: 4 }}>
         <AddEquipmentButton />
         <EquipmentList searchTerm={searchTerm} />
+        <UserDetailForm />
       </Box>
     </Container>
   );
