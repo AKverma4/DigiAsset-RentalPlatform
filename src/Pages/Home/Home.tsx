@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import EquipmentList from '../../components/EquipmentList';
-import EquipmentCard from '../../components/Equipment-card';
+import EquipmentCard from './../../components/Equipment-card';
 
 
 const Home: React.FC = () => {
@@ -30,6 +30,7 @@ const Home: React.FC = () => {
         </Typography>
         <EquipmentList searchTerm={searchTerm} showMoreOptions={false} />
         <EquipmentCard />
+        
       </Box>
     </Container>
   );
