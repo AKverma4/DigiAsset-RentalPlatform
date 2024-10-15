@@ -10,9 +10,11 @@ import {
   Paper,
   TextField,
   Typography,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Google as GoogleIcon } from '@mui/icons-material';
+import { Google as GoogleIcon, Visibility, VisibilityOff } from '@mui/icons-material';
 import image from '../assets/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/authentication';
@@ -58,45 +60,62 @@ const PurpleButton = styled(Button)(() => ({
   },
 }));
 
+const AdminLoginHeader = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  marginBottom: theme.spacing(3),
+  fontWeight: 'bold',
+}));
+
 const LoginPage: React.FC = () => {
+  const { login, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const success = await login(email, password);
-      if (success) {
-        const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
-        navigate(from, { replace: true });
-      } else {
-        console.error('Login failed: Invalid credentials');
-        // Handle login error (show message to user, etc.)
-      }
+      await login(email, password);
+      const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
+      navigate(from, { replace: true });
     } catch (error) {
-      console.error('Login failed:', error);
-      // Handle login error (show message to user, etc.)
+      setError('Failed to log in. Please check your credentials.');
+      console.error(error);
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // Implement Google Sign-In logic here
-    console.log('Google Sign-In clicked');
+  const handleGoogleSignIn = async () => {
+    try {
+      await loginWithGoogle();
+      const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
+      navigate(from, { replace: true });
+    } catch (error) {
+      setError('Failed to sign in with Google.');
+      console.error(error);
+    }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
   return (
     <LoginContainer maxWidth={false}>
       <LoginPaper elevation={6}>
         <FormSection>
-          <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-            Welcome back!
-          </Typography>
+          <AdminLoginHeader variant="h4" component="h1">
+            DigiMart Admin Login
+          </AdminLoginHeader>
           <Typography variant="body2" color="textSecondary" paragraph>
-            Enter to get unlimited access to data & information.
+            Enter your credentials to access the admin dashboard.
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <TextField
@@ -104,7 +123,7 @@ const LoginPage: React.FC = () => {
               required
               fullWidth
               id="email"
-              label="Email"
+              label="Admin Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -116,12 +135,26 @@ const LoginPage: React.FC = () => {
               required
               fullWidth
               name="password"
-              label="Password"
-              type="password"
+              label="Admin Password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <Grid container justifyContent="space-between" alignItems="center">
               <FormControlLabel
@@ -135,7 +168,7 @@ const LoginPage: React.FC = () => {
                 label="Remember me"
               />
               <Link href="#" variant="body2" color="#6c63ff">
-                Forgot your password?
+                Forgot password?
               </Link>
             </Grid>
             <PurpleButton
@@ -144,7 +177,7 @@ const LoginPage: React.FC = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Log in
+              Log in to Admin Dashboard
             </PurpleButton>
             <Button
               fullWidth
@@ -153,14 +186,9 @@ const LoginPage: React.FC = () => {
               sx={{ mb: 2 }}
               onClick={handleGoogleSignIn}
             >
-              Sign up with Google
+              Sign in with Google
             </Button>
-            <Typography variant="body2" align="center">
-              Don't have an account?{' '}
-              <Link href="#" color="#6c63ff">
-                Register here
-              </Link>
-            </Typography>
+            {error && <Typography variant="body2" color="error">{error}</Typography>}
           </Box>
         </FormSection>
         <GraphicSection />
