@@ -1,14 +1,26 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 
-// Remove the Firebase initialization code from here, as it's now in config.ts
+// Firebase configuration using environment variables
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<User>;
-  loginWithGoogle: () => Promise<User>;
+  login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -27,27 +39,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
-  const login = async (email: string, password: string): Promise<User> => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // Return the user object
-      return userCredential.user;
-    } catch (error) {
-      console.error("Login error:", error);
-      throw error; // Re-throw the error so it can be handled by the component
-    }
+  const login = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
-  const loginWithGoogle = async (): Promise<User> => {
+  const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      // Return the user object
-      return result.user;
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-      throw error; // Re-throw the error so it can be handled by the component
-    }
+    await signInWithPopup(auth, provider);
   };
 
   const logout = async () => {
@@ -69,3 +67,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+console.log('API Key:', import.meta.env.VITE_APIKEY);

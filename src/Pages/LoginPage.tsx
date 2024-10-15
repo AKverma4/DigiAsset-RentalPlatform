@@ -60,7 +60,7 @@ const PurpleButton = styled(Button)(() => ({
   },
 }));
 
-const AdminLoginHeader = styled(Typography)(({ theme }) => ({
+const AdminLoginHeader = styled(Typography)<{ component?: React.ElementType }>(({ theme }) => ({
   color: theme.palette.primary.main,
   marginBottom: theme.spacing(3),
   fontWeight: 'bold',
@@ -83,8 +83,8 @@ const LoginPage: React.FC = () => {
       const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
       navigate(from, { replace: true });
     } catch (error) {
-      setError('Failed to log in. Please check your credentials.');
-      console.error(error);
+      console.error('Login failed:', error);
+      setError('Login failed. Please check your credentials and try again.');
     }
   };
 
@@ -94,8 +94,8 @@ const LoginPage: React.FC = () => {
       const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/profile';
       navigate(from, { replace: true });
     } catch (error) {
-      setError('Failed to sign in with Google.');
-      console.error(error);
+      console.error('Google Sign-In failed:', error);
+      setError('Google Sign-In failed. Please try again.');
     }
   };
 
