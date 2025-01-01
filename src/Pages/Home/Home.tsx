@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import EquipmentList from '../../components/EquipmentList';
-import EquipmentCard from '../../components/Equipment-card';
-import CircularImageSection from '../../components/circularimagesection';
+import EquipmentCard from '../../components/EquipmentCard';
+import CircularImageSection from '../../components/CircularImageSection';
 
 
 const Home: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Box } from '@mui/material';
-import EquipmentCard from './EquipmentCard';
+import EquipmentCard from './ListedEquipmentCard';
 import UpdateEquipmentModal from './UpdateEquipmentModal';
 import EquipmentDetailModal from './EquipmentDetailModal';
 import { CartContext } from '../contexts/CartContext';

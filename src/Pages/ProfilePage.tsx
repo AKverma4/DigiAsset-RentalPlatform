@@ -8,7 +8,7 @@ const ProfilePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const handleSearch = (event: CustomEvent) => {
+    const handleSearch = (event: CustomEvent) => {~
       setSearchTerm(event.detail);
     };
 
