@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha, useTheme } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { AppBar } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,11 +16,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { useNavigate } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
@@ -35,21 +31,24 @@ import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
+// Search Bar styling
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha('#ffffff', 0.15),
+  borderRadius: '20px', // Keep this for rounded corners
+  backgroundColor: '#f8f9fa', // Set background color to off-white
   '&:hover': {
-    backgroundColor: alpha('#ffffff', 0.25),
+    backgroundColor: '#e2e6ea', // Slightly darker on hover
   },
   marginLeft: 0,
   width: '100%',
+  border: `1px solid #1976d2`, // Ensure the border color matches your design
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
     width: 'auto',
   },
 }));
 
+// Search Icon Wrapper styling
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
@@ -58,31 +57,30 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: '#1976d2',
 }));
 
+// Styled Input Base with placeholder color
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: '#000', // Set the text color (change this to your desired color)
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '16ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
+    height: '100%',
+  },
+  '&::placeholder': {
+    color: '#A9A9A9', // Change this to your desired placeholder color (e.g., light gray)
+    opacity: 1, // Show the placeholder fully
   },
 }));
 
+
+// Drawer Header styling
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -99,6 +97,7 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { cart } = useCart();
 
+  // Handle drawer open and close
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -107,21 +106,20 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
     setOpen(false);
   };
 
+  // Handle page navigation
   const handleNavigation = (path: string) => {
     navigate(path);
-    // Remove this line to prevent automatic closing
-    // setOpen(false);
   };
 
+  // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
     onSearch(newSearchTerm);
-    
-    // Dispatch a custom event with the search term
     window.dispatchEvent(new CustomEvent('search', { detail: newSearchTerm }));
   };
 
+  // Handle avatar menu
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -135,18 +133,21 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
     handleMenuClose();
   };
 
+  // List of drawer menu items
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, path: '/', color: '#0fa3b1' },
-    { text: 'Login', icon: <LoginIcon />, path: '/login', color: '#e63946' },
-    { text: 'Items', icon: <InventoryIcon />, path: '/items', color: '#FF9800' },
-    { text: 'Order Delivery', icon: <LocalShippingIcon />, path: '/order-delivery', color: '#E91E63' },
-    { text: 'Contact', icon: <ContactMailIcon />, path: '/contact', color: '#9C27B0' },
+    { text: 'Home', path: '/' },
+    { text: 'Login', path: '/login' },
+    { text: 'Categories', path: '/categories' },
+    { text: 'Order Delivery', path: '/order-delivery' },
+    { text: 'Insurance and Policy', path: '/insuranceandpolicy' },
   ];
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ backgroundColor: '#00072d', boxShadow: '40px', borderBottom: '1px solid #e0e0e0' }}>
+      
+      {/* AppBar Section */}
+      <AppBar position="fixed" sx={{ backgroundColor: '#ffffff', boxShadow: 'none', borderBottom: '1px solid #e0e0e0' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -155,43 +156,52 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
             edge="start"
             sx={{
               marginRight: 5,
+              color: 'black',
               ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: '#ffffff' }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: 'black', fontSize: '2.0rem'}}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
               DigiMart
             </Link>
           </Typography>
+          
+          {/* Search Bar Section */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search Equipment…"
+              placeholder="Search Equipment"
               inputProps={{ 'aria-label': 'search' }}
               value={searchTerm}
               onChange={handleSearchChange}
             />
           </Search>
-          <IconButton
-            color="inherit"
-            aria-label="cart"
-            onClick={() => navigate('/cart')}
-            sx={{ ml: 2 }}
-          >
+          
+          {/* Cart and Avatar Icons */}
+          <IconButton color="inherit" aria-label="cart" onClick={() => navigate('/cart')} sx={{ ml: 2, color: 'black' }}>
             <Badge badgeContent={cart.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            onClick={handleAvatarClick}
-            sx={{ ml: 2 }}
-          >
-            <Avatar sx={{ width: 32, height: 32, bgcolor: '#3f51b5' }}>A</Avatar>
-          </IconButton>
+          <IconButton onClick={handleAvatarClick} sx={{ ml: 1, color: 'black', p: 0 }}>
+  <Avatar 
+    sx={{
+      width: 32,
+      height: 32,
+      bgcolor: '#grey.500',
+      outline: 'none',
+      boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.1)' // Adjusts the ring thickness and color
+    }}
+  >
+    A
+  </Avatar>
+</IconButton>
+
+          {/* Avatar Menu */}
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -226,6 +236,8 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
           </Menu>
         </Toolbar>
       </AppBar>
+      
+      {/* Drawer Section */}
       <Drawer
         anchor="left"
         open={open}
@@ -243,67 +255,39 @@ export default function ResponsiveNavbarWithDrawer({ children, onSearch }: Respo
           },
         }}
       >
+        {/* Drawer Header */}
         <DrawerHeader sx={{ 
-          backgroundColor: '#00072d',
+          backgroundColor: '#white',
           color: theme.palette.primary.contrastText,
           display: 'flex',
           alignItems: 'center',
           padding: theme.spacing(0, 2),
         }}>
-          <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', backgroundColor: '#00072d' }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', backgroundColor: '#white' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
               DigiMart
             </Link>
           </Typography>
-          <IconButton onClick={handleDrawerClose} sx={{ color: 'inherit' }}>
-            <ChevronLeftIcon />
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon sx={{ color: '#1976d2' }} />
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ padding: theme.spacing(2, 1) }}>
+        
+        {/* Drawer Menu Items */}
+        <List>
           {menuItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ 
-              display: 'block',
-              mb: 1,
-            }}>
-              <ListItemButton
-                onClick={() => handleNavigation(item.path)}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  borderRadius: '12px',
-                  '&:hover': {
-                    backgroundColor: `${item.color}20`,
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color: item.color,
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  sx={{ 
-                    opacity: open ? 1 : 0,
-                    color: theme.palette.text.primary,
-                    '& .MuiTypography-root': {
-                      fontWeight: 500,
-                    },
-                  }} 
-                />
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton onClick={() => handleNavigation(item.path)}>
+                <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
+      
+      {/* Main Content */}
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {children}
       </Box>

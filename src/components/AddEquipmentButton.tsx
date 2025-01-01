@@ -19,18 +19,18 @@ const AddEquipmentButton: React.FC = () => {
         onClick={openModal}
         style={{
           position: 'fixed',
-          right: '20px',
+          right: '30px',
           top: '20px',
-          backgroundColor: '#3498db', // Updated to a more vibrant blue
+          backgroundColor: '#1976D2', // Updated to a more vibrant blue
           color: 'white',
           padding: '12px 24px', // Slightly increased padding
-          borderRadius: '25px', // Increased border radius for a pill-like shape
+          borderRadius: '16px', // Increased border radius for a pill-like shape
           border: 'none',
-          fontWeight: '600', // Slightly reduced font weight
-          boxShadow: '0 4px 6px rgba(52, 152, 219, 0.3)', // Softer, colored shadow
+          fontWeight: '500', // Slightly reduced font weight
+          boxShadow: '0 2px 4px rgba(52, 152, 219, 0.3)', // Softer, colored shadow
           zIndex: 1000,
           cursor: 'pointer',
-          marginTop: '60px',
+          marginTop: '70px',
           fontSize: '14px', // Added font size
           textTransform: 'uppercase', // Uppercase text
           letterSpacing: '1px', // Added letter spacing

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Box } from '@mui/material';
-import AddEquipmentButton from '../components/AddEquipmentButton';
+// import AddEquipmentButton from '../components/AddEquipmentButton';
 import EquipmentList from '../components/EquipmentList';
-import UserDetailForm from '../components/Userdetailsform';
+import UserDetailForm from '../components/Userdetails';
 
 const ProfilePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,9 +22,9 @@ const ProfilePage: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
-        <AddEquipmentButton />
-        <EquipmentList searchTerm={searchTerm} />
+        {/* <AddEquipmentButton /> */}
         <UserDetailForm />
+        <EquipmentList searchTerm={searchTerm} />
       </Box>
     </Container>
   );
