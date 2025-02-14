@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Google as GoogleIcon } from '@mui/icons-material';
-import image from '../assets/camera.jpg';
+import cameraimage from '../assets/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/authentication';
 import { useLocation } from 'react-router-dom';

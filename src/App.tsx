@@ -15,6 +15,9 @@ import Home from "./Pages/Home/Home";
 import { AuthProvider } from "./contexts/authentication";
 // import ProtectedRoute from './components/ProtectedRoute';
 import SignUp from "./components/SingUp";
+// import EquipmentDetailsPage from "./components/EquipmentDetailsPage";
+import EquipmentCard from './components/EquipmentCard';
+import EquipmentDetail from './components/EquipmentDetail'; 
 
 interface AppState {
   searchTerm: string;
@@ -52,6 +55,9 @@ class App extends React.Component<Record<string, never>, AppState> {
                   />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
+                  {/* <Route path="/equipment/:id" element={<EquipmentDetailsPage />} /> */}
+                  <Route path="/" element={<EquipmentCard />} />
+                  <Route path="/equipment/:id" element={<EquipmentDetail />} />
 
                   {/* <Route path="/profile" element={
                     <ProtectedRoute>
